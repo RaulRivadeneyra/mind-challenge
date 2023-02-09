@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { AppControllerV1 } from '../controllers/app.controller';
-import { AppService } from '../services/app.service';
+import { AppControllerV1 } from './app.controller';
+import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
-import { validate } from '../config/validation';
-import config from '../config';
-import { MongooseConfigService } from '../config/db.config';
+import { validate } from './config/validation';
+import config from './config';
+import { MongooseConfigService } from './config/db.config';
 
 @Module({
   imports: [

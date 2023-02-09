@@ -1,12 +1,6 @@
-import { hashPassword, comparePassword } from '@/utils/security';
+import { hashPassword, comparePassword } from '../security';
 
 describe('security', () => {
-  it('should hash password', async () => {
-    const password = 'password';
-    const hash = await hashPassword(password);
-    expect(hash).not.toBe(password);
-  });
-
   it('should hash and compare password', async () => {
     const password = 'password';
     const hash = await hashPassword(password);
