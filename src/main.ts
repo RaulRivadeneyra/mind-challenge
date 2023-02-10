@@ -13,7 +13,6 @@ async function bootstrap() {
   // TODO: Use the configService to get the port from the .env file
   app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }));
   app.enableVersioning({ defaultVersion: '1', type: VersioningType.URI });
-
   const swaggerConfig = new DocumentBuilder()
     .setTitle('Challenge NestJS API')
     .setDescription('Challenge API built with NestJS for Mind Teams')

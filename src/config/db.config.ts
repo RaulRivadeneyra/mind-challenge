@@ -32,14 +32,24 @@ export default registerAs(
 
 @Injectable()
 export class MongooseConfigService implements MongooseOptionsFactory {
-  constructor(private configService: ConfigService<DatabaseConfig>) {}
+  private dbConfig: DatabaseConfig;
+  constructor(configService: ConfigService) {
+    const dbConfig = configService.get<DatabaseConfig>('database');
+    if (!dbConfig) {
+      throw new Error('Database config not found');
+    }
+    this.dbConfig = dbConfig;
+  }
 
   createMongooseOptions(): MongooseModuleOptions {
-    return {
-      uri: this.configService.get<string>('URI'),
-      dbName: this.configService.get<string>('DB'),
-      user: this.configService.get<string>('USER'),
-      pass: this.configService.get<string>('PASSWORD'),
+    const options = {
+      uri: this.dbConfig.URI,
+      dbName: this.dbConfig.DB,
+      user: this.dbConfig.USER,
+      pass: this.dbConfig.PASSWORD,
     };
+    console.log(options);
+
+    return options;
   }
 }

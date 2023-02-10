@@ -7,6 +7,8 @@ import { validate } from './config/validation';
 import config from './config';
 import { MongooseConfigService } from './config/db.config';
 
+import { UsersModule } from './users/users.module';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -18,7 +20,9 @@ import { MongooseConfigService } from './config/db.config';
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useClass: MongooseConfigService,
+      inject: [ConfigModule],
     }),
+    UsersModule,
   ],
   controllers: [AppControllerV1],
   providers: [AppService],
