@@ -1,5 +1,6 @@
 import httpConfig, { HTTPConfig } from './http.config';
 import databaseConfig, { DatabaseConfig } from './db.config';
+import authConfig, { AuthConfig } from './auth.config';
 import { IsEnum } from 'class-validator';
 
 enum Environment {
@@ -14,6 +15,7 @@ export class EnvironmentVariables {
 
   http: HTTPConfig;
   database: DatabaseConfig;
+  auth: AuthConfig;
 }
 
-export default [httpConfig, databaseConfig];
+export default [httpConfig, databaseConfig, authConfig];

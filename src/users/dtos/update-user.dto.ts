@@ -1,5 +1,5 @@
-import { Role } from '../schemas/role.sub-schema';
 import { ApiPropertyOptional } from '@nestjs/swagger';
+import { Role } from '../schemas/user.schema';
 
 export class UpdateUserDTO {
   @ApiPropertyOptional()
@@ -9,5 +9,5 @@ export class UpdateUserDTO {
   @ApiPropertyOptional()
   email?: string;
   @ApiPropertyOptional()
-  roles?: Role[];
+  role?: Role[];
 }

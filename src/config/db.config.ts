@@ -5,31 +5,33 @@ import {
 } from '@nestjs/mongoose';
 import { ConfigService, registerAs } from '@nestjs/config';
 import { IsString } from 'class-validator';
+import constants from './constants';
 
 export class DatabaseConfig {
   @IsString()
-  URI?: string;
+  URI: string;
 
   @IsString()
-  DB?: string;
+  DB: string;
 
   @IsString()
-  USER?: string;
+  USER: string;
 
   @IsString()
-  PASSWORD?: string;
+  PASSWORD: string;
 }
 
 export default registerAs(
-  'database',
+  constants.CONFIGS.DATABASE,
   (): DatabaseConfig => ({
-    URI: process.env.MONGODB_URI,
-    DB: process.env.MONGODB_DB,
-    USER: process.env.MONGODB_USER,
-    PASSWORD: process.env.MONGODB_PASSWORD,
+    URI: process.env.MONGODB_URI || 'mongodb://localhost/nest',
+    DB: process.env.MONGODB_DB || 'nest',
+    USER: process.env.MONGODB_USER || '',
+    PASSWORD: process.env.MONGODB_PASSWORD || '',
   }),
 );
 
+/*
 @Injectable()
 export class MongooseConfigService implements MongooseOptionsFactory {
   private dbConfig: DatabaseConfig;
@@ -53,3 +55,4 @@ export class MongooseConfigService implements MongooseOptionsFactory {
     return options;
   }
 }
+*/

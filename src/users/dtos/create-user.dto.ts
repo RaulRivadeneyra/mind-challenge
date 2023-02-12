@@ -1,5 +1,5 @@
-import { Role } from '../schemas/role.sub-schema';
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
+import { Role } from '../schemas/user.schema';
 
 export class CreateUserDTO {
   @ApiProperty()
@@ -10,6 +10,6 @@ export class CreateUserDTO {
   email: string;
   @ApiProperty()
   password: string;
-  @ApiPropertyOptional()
-  roles?: Role[];
+  @ApiProperty()
+  role: Role;
 }

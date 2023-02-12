@@ -1,21 +1,24 @@
-import { User } from './schemas/user.schema';
+import { Role, User } from './schemas/user.schema';
 import { CreateUserDTO, UpdateUserDTO } from './dtos';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 
 import { UsersRepository } from './users.repository';
 
-type EmailOrId = { email: string } | { _id: string };
-
 @Injectable()
 export class UsersServiceV1 {
+  private readonly logger = new Logger(UsersServiceV1.name);
   constructor(private readonly usersRepository: UsersRepository) {}
 
   async createUser(user: CreateUserDTO): Promise<User> {
     return this.usersRepository.create(user);
   }
 
-  async getUser(emailOrId: EmailOrId): Promise<User | null> {
-    return this.usersRepository.findOne(emailOrId);
+  async getUserByEmail(email: string): Promise<User | null> {
+    return this.usersRepository.findOne({ email: email });
+  }
+
+  async getUserById(id: string): Promise<User | null> {
+    return this.usersRepository.findOne({ _id: id });
   }
 
   //TODO: Add pagination
@@ -23,14 +26,15 @@ export class UsersServiceV1 {
     return this.usersRepository.find({});
   }
 
-  async updateUser(
-    emailOrId: EmailOrId,
-    user: UpdateUserDTO,
-  ): Promise<User | null> {
-    return this.usersRepository.findOneAndUpdate(emailOrId, user);
+  async updateUser(id: string, user: UpdateUserDTO): Promise<User | null> {
+    return this.usersRepository.findOneAndUpdate({ _id: id }, user);
   }
 
-  async deleteUser(emailOrId: EmailOrId): Promise<boolean> {
-    return this.usersRepository.deleteOne(emailOrId);
+  async deleteUser(id: string): Promise<boolean> {
+    return this.usersRepository.deleteOne({ _id: id });
+  }
+
+  async changeRole(id: string, role: Role): Promise<User | null> {
+    return this.usersRepository.findOneAndUpdate({ _id: id }, { role });
   }
 }

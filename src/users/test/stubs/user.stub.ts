@@ -1,26 +1,13 @@
-import { User } from '../../schemas/user.schema';
-import {
-  PermissionAction,
-  PermissionEntity,
-} from '../../schemas/role.sub-schema';
+import { Types } from 'mongoose';
+import { Role, User } from '../../schemas/user.schema';
 
-export const userStub = (): User & { _id: string } => {
+export const userStub = (): User => {
   return {
-    _id: '12345',
+    _id: new Types.ObjectId('5f7b5b9b9c9d9b1b8c8c8c8c'),
     email: 'test@example.com',
     password: 'password',
     firstName: 'Test',
     lastName: 'User',
-    roles: [
-      {
-        name: 'admin',
-        permissions: [
-          {
-            entity: PermissionEntity.USER,
-            action: PermissionAction.ALL_ACCESS,
-          },
-        ],
-      },
-    ],
+    role: Role.ADMIN,
   };
 };

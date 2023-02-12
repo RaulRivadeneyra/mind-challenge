@@ -28,11 +28,13 @@ describe('UsersController', () => {
       let user: User | null;
 
       beforeEach(async () => {
-        user = await usersController.getUser(userStub()._id);
+        user = await usersController.getUser(userStub()._id.toString());
       });
 
       it('should call usersService', () => {
-        expect(usersService.getUser).toBeCalledWith({ _id: userStub()._id });
+        expect(usersService.getUserById).toBeCalledWith(
+          userStub()._id.toString(),
+        );
       });
 
       it('should return a user', () => {
@@ -70,6 +72,7 @@ describe('UsersController', () => {
           lastName: userStub().lastName,
           email: userStub().email,
           password: userStub().password,
+          role: userStub().role,
         };
         user = await usersController.createUser(createUserDTO);
       });
@@ -93,12 +96,15 @@ describe('UsersController', () => {
         updateUserDTO = {
           firstName: 'David',
         };
-        user = await usersController.updateUser(userStub()._id, updateUserDTO);
+        user = await usersController.updateUser(
+          userStub()._id.toString(),
+          updateUserDTO,
+        );
       });
 
       it('should call usersService', () => {
         expect(usersService.updateUser).toHaveBeenCalledWith(
-          { _id: userStub()._id },
+          userStub()._id.toString(),
           updateUserDTO,
         );
       });
