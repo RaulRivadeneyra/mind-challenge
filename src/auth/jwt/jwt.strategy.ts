@@ -2,24 +2,21 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { AuthConfig } from 'src/config/auth.config';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor(configService: ConfigService) {
-    const authConfig = configService.get('auth');
-    if (!authConfig) {
-      throw new Error('Auth config is not defined');
-    }
-    console.log('authConfig', authConfig);
+  constructor(authConfig: ConfigService<AuthConfig, true>) {
+    const secret = authConfig.get('SECRET');
 
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: authConfig.SECRET,
+      secretOrKey: secret,
       ignoreExpiration: false,
     });
   }
 
   async validate(payload: any): Promise<any> {
-    return { email: payload.email, sub: payload.sub };
+    return { email: payload.email, _id: payload._id, role: payload.role };
   }
 }

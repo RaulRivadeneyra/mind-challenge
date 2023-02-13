@@ -1,9 +1,4 @@
-import { Injectable } from '@nestjs/common';
-import {
-  MongooseOptionsFactory,
-  MongooseModuleOptions,
-} from '@nestjs/mongoose';
-import { ConfigService, registerAs } from '@nestjs/config';
+import { registerAs } from '@nestjs/config';
 import { IsString } from 'class-validator';
 import constants from './constants';
 
@@ -30,29 +25,3 @@ export default registerAs(
     PASSWORD: process.env.MONGODB_PASSWORD || '',
   }),
 );
-
-/*
-@Injectable()
-export class MongooseConfigService implements MongooseOptionsFactory {
-  private dbConfig: DatabaseConfig;
-  constructor(configService: ConfigService) {
-    const dbConfig = configService.get<DatabaseConfig>('database');
-    if (!dbConfig) {
-      throw new Error('Database config not found');
-    }
-    this.dbConfig = dbConfig;
-  }
-
-  createMongooseOptions(): MongooseModuleOptions {
-    const options = {
-      uri: this.dbConfig.URI,
-      dbName: this.dbConfig.DB,
-      user: this.dbConfig.USER,
-      pass: this.dbConfig.PASSWORD,
-    };
-    console.log(options);
-
-    return options;
-  }
-}
-*/

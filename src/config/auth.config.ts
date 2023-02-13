@@ -1,6 +1,7 @@
 import { registerAs } from '@nestjs/config';
 import { IsDefined, IsString } from 'class-validator';
 import constants from './constants';
+
 export class AuthConfig {
   @IsString()
   @IsDefined()

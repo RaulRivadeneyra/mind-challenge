@@ -1,10 +1,12 @@
-import { IsEmail, IsNotEmpty, IsMongoId } from 'class-validator';
+import { IsEmail, IsNotEmpty } from 'class-validator';
 export class JwtPayloadDTO {
-  @IsMongoId()
   @IsNotEmpty()
-  userId: string;
+  _id: string;
 
   @IsEmail()
   @IsNotEmpty()
   email: string;
+
+  @IsNotEmpty()
+  role: string;
 }

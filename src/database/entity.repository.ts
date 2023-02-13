@@ -30,7 +30,6 @@ export abstract class EntityRepository<T extends Document> {
     return this.entityModel.find(entityFilterQuery, projection, options);
   }
 
-  @CatchAsync
   async create(createEntityData: unknown): Promise<T> {
     const entity = new this.entityModel(createEntityData);
     return entity.save();

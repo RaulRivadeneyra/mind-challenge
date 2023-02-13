@@ -1,4 +1,10 @@
-import { SchemaTypes, Schema, HydratedDocument, Types } from 'mongoose';
+import {
+  SchemaTypes,
+  Schema,
+  HydratedDocument,
+  Types,
+  InferSchemaType,
+} from 'mongoose';
 import middlewares from './user.middleware';
 
 export enum Role {
@@ -24,6 +30,6 @@ export const UserSchema = new Schema<User>({
   role: { type: SchemaTypes.String, required: true, enum: Object.values(Role) },
 });
 
-export type UserDocument = User & HydratedDocument<User>;
+export type UserDocument = HydratedDocument<User>;
 
 UserSchema.pre('save', middlewares.pre.save);

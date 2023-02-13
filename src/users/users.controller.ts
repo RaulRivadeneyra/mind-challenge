@@ -1,8 +1,8 @@
 import { CreateUserDTO, UpdateUserDTO } from './dtos';
-import { Req, Controller, Get, Param, Post, Put, Body } from '@nestjs/common';
+import { Controller, Get, Param, Post, Put, Body, Req } from '@nestjs/common';
 import { UsersServiceV1 } from './users.service';
-import { Request } from 'express';
 import { ApiTags } from '@nestjs/swagger';
+import { Request } from 'express';
 
 @ApiTags('Users routes')
 @Controller({
@@ -22,12 +22,18 @@ export class UsersControllerV1 {
   }
 
   @Post()
-  async createUser(@Body() user: CreateUserDTO) {
+  async createUser(@Req() req: Request<unknown, unknown, CreateUserDTO>) {
+    const user = req.body;
+
     return this.usersService.createUser(user);
   }
 
   @Put(':id')
-  async updateUser(@Param('id') id: string, @Body() user: UpdateUserDTO) {
+  async updateUser(
+    @Param('id') id: string,
+    @Req() req: Request<unknown, unknown, UpdateUserDTO>,
+  ) {
+    const user = req.body;
     return this.usersService.updateUser(id, user);
   }
 }

@@ -6,6 +6,7 @@ import { validate } from './config/validation';
 import config from './config';
 
 import { UsersModule } from './users/users.module';
+import { AccountsModule } from './accounts/accounts.module';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
@@ -17,6 +18,7 @@ import { AuthModule } from './auth/auth.module';
       cache: true,
     }),
     UsersModule,
+    AccountsModule,
     AuthModule,
   ],
   controllers: [AppControllerV1],

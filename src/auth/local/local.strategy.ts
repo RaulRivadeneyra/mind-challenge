@@ -7,7 +7,6 @@ import { JwtPayloadDTO } from '../dtos/jwt-payload-dto';
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
   constructor(private authService: AuthService) {
-    console.log('LocalStrategy');
     super({
       usernameField: 'email',
       passwordField: 'password',
@@ -19,7 +18,6 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     try {
       payload = await this.authService.validateUser({ email, password });
     } catch (error) {
-      console.error('error', error);
       throw new UnauthorizedException();
     }
     return payload;

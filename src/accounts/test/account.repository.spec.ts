@@ -1,41 +1,41 @@
 import { getModelToken } from '@nestjs/mongoose';
 import { Test } from '@nestjs/testing';
 import { FilterQuery, Types } from 'mongoose';
-import { User } from '../schemas/user.schema';
-import { UsersRepository } from '../users.repository';
-import { userStub } from './stubs/user.stub';
-import { UserModel } from './support/user.model';
+import { Account } from '../schemas/account.schema';
+import { AccountsRepository } from '../accounts.repository';
+import { stub } from './stubs/user.stub';
+import { AccountModel } from './support/user.model';
 import constants from '../../config/constants';
 import { DatabaseModule } from '../../database/database.module';
 
 const modelName = constants.MODELS.USER;
 
 describe('UsersRepository', () => {
-  let usersRepository: UsersRepository;
+  let repository: AccountsRepository;
 
   describe('find operations', () => {
-    let userModel: UserModel;
-    let userFilterQuery: FilterQuery<User>;
+    let model: AccountModel;
+    let filterQuery: FilterQuery<Account>;
 
     beforeEach(async () => {
       const moduleRef = await Test.createTestingModule({
         imports: [DatabaseModule],
         providers: [
-          UsersRepository,
+          AccountsRepository,
           {
-            provide: getModelToken(constants.MODELS.USER),
-            useClass: UserModel,
+            provide: getModelToken(constants.MODELS.ACCOUNT),
+            useClass: AccountModel,
           },
         ],
       }).compile();
 
-      usersRepository = moduleRef.get<UsersRepository>(UsersRepository);
-      userModel = moduleRef.get<UserModel>(
-        getModelToken(constants.MODELS.USER),
+      repository = moduleRef.get<AccountsRepository>(AccountsRepository);
+      model = moduleRef.get<AccountModel>(
+        getModelToken(constants.MODELS.ACCOUNT),
       );
 
-      userFilterQuery = {
-        _id: new Types.ObjectId(userStub()._id),
+      filterQuery = {
+        _id: new Types.ObjectId(stub()._id),
       };
 
       jest.clearAllMocks();
@@ -43,68 +43,65 @@ describe('UsersRepository', () => {
 
     describe('findOne', () => {
       describe('when findOne is called', () => {
-        let user: User | null;
+        let account: Account | null;
 
         beforeEach(async () => {
-          jest.spyOn(userModel, 'findOne');
-          user = await usersRepository.findOne(userFilterQuery);
+          jest.spyOn(model, 'findOne');
+          account = await repository.findOne(filterQuery);
         });
 
         test('then it should call the userModel', () => {
-          expect(userModel.findOne).toHaveBeenCalled();
+          expect(model.findOne).toHaveBeenCalled();
         });
 
         test('then it should return a user', () => {
-          expect(user).toEqual(userStub());
+          expect(account).toEqual(stub());
         });
       });
     });
 
     describe('find', () => {
       describe('when find is called', () => {
-        let users: User[] | null;
+        let accounts: Account[] | null;
 
         beforeEach(async () => {
-          jest.spyOn(userModel, 'find');
-          users = await usersRepository.find(userFilterQuery);
+          jest.spyOn(model, 'find');
+          accounts = await repository.find(filterQuery);
         });
 
         test('then it should call the userModel', () => {
-          expect(userModel.find).toHaveBeenCalledWith(
-            userFilterQuery,
+          expect(model.find).toHaveBeenCalledWith(
+            filterQuery,
             undefined,
             undefined,
           );
         });
 
         test('then it should return a user', () => {
-          expect(users).toEqual([userStub()]);
+          expect(accounts).toEqual([stub()]);
         });
       });
     });
 
     describe('findOneAndUpdate', () => {
       describe('when findOneAndUpdate is called', () => {
-        let user: User | null;
+        let account: Account | null;
 
         beforeEach(async () => {
-          jest.spyOn(userModel, 'findOneAndUpdate');
-          user = await usersRepository.findOneAndUpdate(
-            userFilterQuery,
-            userStub(),
-          );
+          jest.spyOn(model, 'findOneAndUpdate');
+          account = await repository.findOneAndUpdate(filterQuery, stub());
         });
 
         test('then it should call the userModel', () => {
-          expect(userModel.findOneAndUpdate).toHaveBeenCalledWith(
-            userFilterQuery,
-            userStub(),
+          expect(model.findOneAndUpdate).toHaveBeenCalledWith(
+            filterQuery,
+            stub(),
             { new: true },
           );
         });
 
         test('then it should return a user', () => {
-          expect(user).toEqual(userStub());
+          expect(account).toEqual(stub());
         });
       });
     });
@@ -114,36 +111,36 @@ describe('UsersRepository', () => {
     beforeEach(async () => {
       const moduleRef = await Test.createTestingModule({
         providers: [
-          UsersRepository,
+          AccountsRepository,
           {
             provide: getModelToken(modelName),
-            useValue: UserModel,
+            useValue: AccountModel,
           },
         ],
       }).compile();
 
-      usersRepository = moduleRef.get<UsersRepository>(UsersRepository);
+      repository = moduleRef.get<AccountsRepository>(AccountsRepository);
     });
 
     describe.skip('create', () => {
       describe('when create is called', () => {
-        let user: User;
+        let account: Account;
         let saveSpy: jest.SpyInstance;
         let constructorSpy: jest.SpyInstance;
 
         beforeEach(async () => {
-          saveSpy = jest.spyOn(UserModel.prototype, 'save');
-          constructorSpy = jest.spyOn(UserModel.prototype, 'constructorSpy');
-          user = await usersRepository.create(userStub());
+          saveSpy = jest.spyOn(AccountModel.prototype, 'save');
+          constructorSpy = jest.spyOn(AccountModel.prototype, 'constructorSpy');
+          account = await repository.create(stub());
         });
 
         test('then it should call the userModel', () => {
           expect(saveSpy).toHaveBeenCalled();
-          expect(constructorSpy).toHaveBeenCalledWith(userStub());
+          expect(constructorSpy).toHaveBeenCalledWith(stub());
         });
 
         test('then it should return a user', () => {
-          expect(user).toEqual(userStub());
+          expect(account).toEqual(stub());
         });
       });
     });

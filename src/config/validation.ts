@@ -4,7 +4,7 @@ import { EnvironmentVariables } from './index';
 
 export function validate(config: Record<string, unknown>) {
   const validatedConfig = plainToInstance(EnvironmentVariables, config, {
-    enableCircularCheck: true,
+    enableImplicitConversion: true,
   });
   const errors = validateSync(validatedConfig, {
     skipMissingProperties: false,

@@ -2,14 +2,12 @@ import { Module } from '@nestjs/common';
 import { UsersControllerV1 } from './users.controller';
 import { UsersServiceV1 } from './users.service';
 import { UsersRepository } from './users.repository';
-import { AuthModule } from '../auth/auth.module';
-import { DatabaseModule } from '../database/database.module';
-import { usersProviders } from './users.providers';
+import { DatabaseModule } from 'src/database/database.module';
 
 @Module({
-  imports: [DatabaseModule, AuthModule],
+  imports: [DatabaseModule],
   controllers: [UsersControllerV1],
-  providers: [UsersServiceV1, UsersRepository, ...usersProviders],
+  providers: [UsersServiceV1, UsersRepository],
   exports: [UsersServiceV1],
 })
 export class UsersModule {}

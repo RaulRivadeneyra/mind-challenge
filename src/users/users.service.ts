@@ -1,15 +1,15 @@
 import { Role, User } from './schemas/user.schema';
 import { CreateUserDTO, UpdateUserDTO } from './dtos';
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 
 import { UsersRepository } from './users.repository';
 
 @Injectable()
 export class UsersServiceV1 {
-  private readonly logger = new Logger(UsersServiceV1.name);
   constructor(private readonly usersRepository: UsersRepository) {}
 
   async createUser(user: CreateUserDTO): Promise<User> {
+    console.log(user);
     return this.usersRepository.create(user);
   }
 

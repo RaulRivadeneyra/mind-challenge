@@ -1,12 +1,13 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
-import { UserWithId } from 'src/users/schemas/user.schema';
 import { Request } from 'express';
 import { LocalAuthGuard } from './local/local-auth.guard';
 import { JwtAuthGuard } from './jwt/jwt-auth.guard';
-import { UserCredentialsDTO } from './dtos/user-credentials.dto';
-
+import { Roles } from './roles/roles.decorator';
+import { Role } from 'src/users/schemas/user.schema';
+import { RolesGuard } from './roles/roles.guard';
+import { Auth } from './auth.decorator';
 @ApiTags('Auth routes')
 @Controller({
   path: 'auth',
@@ -26,9 +27,8 @@ export class AuthController {
 
     return this.authService.login(req.user);
   }
-
-  @UseGuards(JwtAuthGuard)
   @Get('profile')
+  @Auth(Role.ADMIN)
   profile(@Req() req: Request) {
     const user = req.user;
     if (!user) {

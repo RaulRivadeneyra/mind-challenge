@@ -23,10 +23,12 @@ export class AuthService {
     if (!isPasswordValid) {
       throw new Error('Invalid password');
     }
+    console.log('user', user);
 
     return {
-      userId: user._id.toString(),
+      _id: user._id.toString(),
       email: user.email,
+      role: user.role,
     };
   }
 

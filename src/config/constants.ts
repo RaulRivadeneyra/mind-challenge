@@ -1,6 +1,7 @@
 export default {
   MODELS: {
     USER: 'USER_MODEL',
+    ACCOUNT: 'ACCOUNT_MODEL',
   },
   CONNECTIONS: {
     MONGODB: 'MONGODB_CONNECTION',
