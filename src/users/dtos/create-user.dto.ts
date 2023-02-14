@@ -11,5 +11,5 @@ export class CreateUserDTO {
   @ApiProperty()
   password: string;
   @ApiProperty()
-  role: Role;
+  role: Exclude<Role, 'super'>;
 }

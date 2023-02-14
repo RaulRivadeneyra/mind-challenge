@@ -1,14 +1,15 @@
 import { Module } from '@nestjs/common';
-import { AccountsControllerV1 } from './accounts.controller';
-import { AccountServiceV1 } from './accounts.service';
+import { AccountsController } from './accounts.controller';
+import { AccountsService } from './accounts.service';
 import { AccountsRepository } from './accounts.repository';
 import { UsersModule } from 'src/users/users.module';
-import { DatabaseModule } from 'src/database/database.module';
+import { MongooseModule } from '@nestjs/mongoose';
+import { AccountModelDefinition } from './schemas/account.model-def';
 
 @Module({
-  imports: [UsersModule, DatabaseModule],
-  controllers: [AccountsControllerV1],
-  providers: [AccountServiceV1, AccountsRepository],
-  exports: [AccountServiceV1],
+  imports: [UsersModule, MongooseModule.forFeature([AccountModelDefinition])],
+  controllers: [AccountsController],
+  providers: [AccountsService, AccountsRepository],
+  exports: [AccountsService],
 })
 export class AccountsModule {}

@@ -2,7 +2,7 @@ import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Request } from 'express';
 import { Role } from 'src/users/schemas/user.schema';
-import { JwtPayloadDTO } from '../dtos/jwt-payload-dto';
+import { JwtPayloadDTO } from '../../dtos/jwt-payload-dto';
 
 interface RequestWithUser extends Request {
   user: JwtPayloadDTO;

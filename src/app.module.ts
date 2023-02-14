@@ -7,7 +7,9 @@ import config from './config';
 
 import { UsersModule } from './users/users.module';
 import { AccountsModule } from './accounts/accounts.module';
-import { AuthModule } from './auth/auth.module';
+import { AuthModule } from './auth/authentication/auth.module';
+import { MongooseModule } from '@nestjs/mongoose';
+import { DatabaseConnection } from './database/database.connection';
 
 @Module({
   imports: [
@@ -17,6 +19,7 @@ import { AuthModule } from './auth/auth.module';
       validate,
       cache: true,
     }),
+    MongooseModule.forRootAsync(DatabaseConnection),
     UsersModule,
     AccountsModule,
     AuthModule,

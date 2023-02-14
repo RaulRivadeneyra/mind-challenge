@@ -5,8 +5,6 @@ import { ValidationPipe, VersioningType } from '@nestjs/common';
 
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
-import passport, { session } from 'passport';
-import { RolesGuard } from './auth/roles/roles.guard';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);

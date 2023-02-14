@@ -4,10 +4,10 @@ import { AuthService } from './auth.service';
 import { Request } from 'express';
 import { LocalAuthGuard } from './local/local-auth.guard';
 import { JwtAuthGuard } from './jwt/jwt-auth.guard';
-import { Roles } from './roles/roles.decorator';
+import { Roles } from '../authorization/roles/roles.decorator';
 import { Role } from 'src/users/schemas/user.schema';
-import { RolesGuard } from './roles/roles.guard';
-import { Auth } from './auth.decorator';
+import { RolesGuard } from '../authorization/roles/roles.guard';
+import { Auth } from '../auth.decorator';
 @ApiTags('Auth routes')
 @Controller({
   path: 'auth',

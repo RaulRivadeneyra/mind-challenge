@@ -1,10 +1,9 @@
 import { CreateAccountDTO, UpdateAccountDTO } from './dtos';
-import { Controller, Get, Param, Post, Put, Req } from '@nestjs/common';
-import { AccountServiceV1 } from './accounts.service';
+import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import { AccountsService } from './accounts.service';
 import { ApiTags } from '@nestjs/swagger';
-import { Request } from 'express';
-import { Role } from 'src/users/schemas/user.schema';
-import { Auth } from 'src/auth/auth.decorator';
+import { Role } from '../users/schemas/user.schema';
+import { Auth } from '../auth/auth.decorator';
 
 @ApiTags('Accounts routes')
 @Controller({
@@ -12,29 +11,24 @@ import { Auth } from 'src/auth/auth.decorator';
   version: '1',
 })
 @Auth(Role.SUPER, Role.ADMIN)
-export class AccountsControllerV1 {
-  constructor(private readonly service: AccountServiceV1) {}
+export class AccountsController {
+  constructor(private readonly service: AccountsService) {}
   @Get(':id')
   async getAccount(@Param('id') id: string) {
-    return this.service.getById(id);
+    return this.service.findOne(id);
   }
   @Get()
   async getAccounts() {
-    return this.service.getAll();
+    return this.service.findAll();
   }
 
   @Post()
-  async createAccounts(
-    @Req() req: Request<unknown, unknown, CreateAccountDTO>,
-  ) {
-    return this.service.create(req.body);
+  async createAccount(@Body() user: CreateAccountDTO) {
+    return this.service.create(user);
   }
 
   @Put(':id')
-  async updateAccounts(
-    @Param('id') id: string,
-    @Req() req: Request<unknown, unknown, UpdateAccountDTO>,
-  ) {
-    return this.service.update(id, req.body);
+  async updateAccount(@Param('id') id: string, @Body() user: UpdateAccountDTO) {
+    return this.service.update(id, user);
   }
 }

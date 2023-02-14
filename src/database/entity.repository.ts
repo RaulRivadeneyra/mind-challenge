@@ -6,8 +6,6 @@ import {
   UpdateQuery,
 } from 'mongoose';
 
-import { CatchAsync } from '../logger/logger.decorator';
-
 export abstract class EntityRepository<T extends Document> {
   constructor(protected readonly entityModel: Model<T>) {}
 

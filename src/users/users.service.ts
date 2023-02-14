@@ -3,38 +3,28 @@ import { CreateUserDTO, UpdateUserDTO } from './dtos';
 import { Injectable } from '@nestjs/common';
 
 import { UsersRepository } from './users.repository';
+import { BaseCRUDService } from 'src/common/base-crud.service';
+
+export interface IUsersService
+  extends BaseCRUDService<User, CreateUserDTO, UpdateUserDTO> {
+  findByEmail(email: string): Promise<User | null>;
+  changeRole(id: string, role: Role): Promise<User | null>;
+}
 
 @Injectable()
-export class UsersServiceV1 {
-  constructor(private readonly usersRepository: UsersRepository) {}
-
-  async createUser(user: CreateUserDTO): Promise<User> {
-    console.log(user);
-    return this.usersRepository.create(user);
+export class UsersService
+  extends BaseCRUDService<User, CreateUserDTO, UpdateUserDTO>
+  implements IUsersService
+{
+  constructor(protected readonly repository: UsersRepository) {
+    super(repository);
   }
 
-  async getUserByEmail(email: string): Promise<User | null> {
-    return this.usersRepository.findOne({ email: email });
-  }
-
-  async getUserById(id: string): Promise<User | null> {
-    return this.usersRepository.findOne({ _id: id });
-  }
-
-  //TODO: Add pagination
-  async getUsers(): Promise<User[] | null> {
-    return this.usersRepository.find({});
-  }
-
-  async updateUser(id: string, user: UpdateUserDTO): Promise<User | null> {
-    return this.usersRepository.findOneAndUpdate({ _id: id }, user);
-  }
-
-  async deleteUser(id: string): Promise<boolean> {
-    return this.usersRepository.deleteOne({ _id: id });
+  async findByEmail(email: string): Promise<User | null> {
+    return this.repository.findOne({ email: email });
   }
 
   async changeRole(id: string, role: Role): Promise<User | null> {
-    return this.usersRepository.findOneAndUpdate({ _id: id }, { role });
+    return this.repository.findOneAndUpdate({ _id: id }, { role });
   }
 }

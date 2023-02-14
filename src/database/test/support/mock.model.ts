@@ -25,4 +25,16 @@ export abstract class MockModel<T> {
   async findOneAndUpdate(): Promise<T> {
     return this.entityStub;
   }
+
+  async deleteMany(): Promise<{ deletedCount: number }> {
+    return {
+      deletedCount: 1,
+    };
+  }
+
+  async deleteOne(): Promise<{ deletedCount: number }> {
+    return {
+      deletedCount: 1,
+    };
+  }
 }

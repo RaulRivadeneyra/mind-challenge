@@ -3,29 +3,21 @@ import { CreateAccountDTO, UpdateAccountDTO } from './dtos';
 import { Injectable } from '@nestjs/common';
 
 import { AccountsRepository } from './accounts.repository';
+import { BaseCRUDService } from 'src/common/base-crud.service';
+
+export type IAccountsService = BaseCRUDService<
+  Account,
+  CreateAccountDTO,
+  UpdateAccountDTO
+>;
 
 @Injectable()
-export class AccountServiceV1 {
-  constructor(private readonly accountsRepository: AccountsRepository) {}
-
-  async create(account: CreateAccountDTO): Promise<Account> {
-    return this.accountsRepository.create(account);
-  }
-
-  async getById(id: string): Promise<Account | null> {
-    return this.accountsRepository.findOne({ _id: id });
-  }
-
-  //TODO: Add pagination
-  async getAll(): Promise<Account[] | null> {
-    return this.accountsRepository.find({});
-  }
-
-  async update(id: string, account: UpdateAccountDTO): Promise<Account | null> {
-    return this.accountsRepository.findOneAndUpdate({ _id: id }, account);
-  }
-
-  async delete(id: string): Promise<boolean> {
-    return this.accountsRepository.deleteOne({ _id: id });
+export class AccountsService extends BaseCRUDService<
+  Account,
+  CreateAccountDTO,
+  UpdateAccountDTO
+> {
+  constructor(protected readonly repository: AccountsRepository) {
+    super(repository);
   }
 }

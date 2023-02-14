@@ -9,5 +9,5 @@ export class UpdateUserDTO {
   @ApiPropertyOptional()
   email?: string;
   @ApiPropertyOptional()
-  role?: Role[];
+  role?: Exclude<Role, Role.SUPER>;
 }
