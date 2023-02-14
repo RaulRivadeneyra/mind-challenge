@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { UsersServiceV1 } from '../../users/users.service';
+import { UsersService } from '../../users/users.service';
 import { comparePassword } from '../../utils/security';
 import { JwtService } from '@nestjs/jwt';
 import { UserCredentialsDTO } from '../dtos/user-credentials.dto';
@@ -8,14 +8,14 @@ import { JwtPayloadDTO } from '../dtos/jwt-payload-dto';
 @Injectable()
 export class AuthService {
   constructor(
-    private usersService: UsersServiceV1,
+    private usersService: UsersService,
     private jwtService: JwtService,
   ) {}
 
   async validateUser(credentials: UserCredentialsDTO): Promise<JwtPayloadDTO> {
     const { email, password } = credentials;
 
-    const user = await this.usersService.getUserByEmail(email);
+    const user = await this.usersService.findByEmail(email);
     if (!user) {
       throw new Error('User not found');
     }

@@ -1,11 +1,15 @@
-import { ConfigType } from '@nestjs/config';
+import { ConfigModule, ConfigService, ConfigType } from '@nestjs/config';
 import databaseConfig from '../config/db.config';
 import { MongooseModuleOptions } from '@nestjs/mongoose';
+import constants from 'src/config/constants';
 
 export const DatabaseConnection = {
-  useFactory: (
-    dbConfig: ConfigType<typeof databaseConfig>,
-  ): MongooseModuleOptions => {
+  imports: [ConfigModule],
+  inject: [ConfigService],
+  useFactory: (configService: ConfigService): MongooseModuleOptions => {
+    const dbConfig: ConfigType<typeof databaseConfig> | undefined =
+      configService.get(constants.CONFIGS.DATABASE);
+    if (!dbConfig) throw new Error('Database config not found');
     return {
       uri: dbConfig.URI,
       dbName: dbConfig.DB,
@@ -13,5 +17,4 @@ export const DatabaseConnection = {
       pass: dbConfig.PASSWORD,
     };
   },
-  inject: [databaseConfig.KEY],
 };

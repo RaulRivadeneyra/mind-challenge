@@ -1,10 +1,5 @@
-import {
-  SchemaTypes,
-  Schema,
-  HydratedDocument,
-  Types,
-  InferSchemaType,
-} from 'mongoose';
+import { SchemaTypes, Schema, HydratedDocument, Types } from 'mongoose';
+//import historyPlugin from '../../utils/mongoose-versioning';
 import middlewares from './user.middleware';
 
 export enum Role {
